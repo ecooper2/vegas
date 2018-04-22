@@ -5,8 +5,10 @@
   "main": "server.js",
   "author": "Scotch",
   "dependencies": {
+    "cheerio": "latest",
     "express": "latest",
-    "request": "latest",
-    "cheerio": "latest"
+    "mkdirp": "^0.5.1",
+    "moment": "^2.22.1",
+    "request": "latest"
   }
 }
