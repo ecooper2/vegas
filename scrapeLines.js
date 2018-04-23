@@ -7,12 +7,12 @@ var moment = require('moment');
 //Where shall we hunt for odds?
 const url = 'https://www.sportsbookreview.com/betting-odds/mlb-baseball/';
 
-//Create output directory if needed
-var output_dir = './outputs/html'
-mkdirp(output_dir, function(err) {});
+//Create html directory if needed
+var input_dir = './inputs/html/'
+mkdirp(input_dir, function(err) {});
 
-DumpHTML = function(output_path, parsed_html){
-    fs.writeFileSync(output_path, parsed_html, function(err) {
+function dumpHTML(input_path, parsed_html){
+    fs.writeFileSync(input_path, parsed_html, function(err) {
         if(err) { return console.log(err); }
     }); 
 }
@@ -35,12 +35,12 @@ function harvestLines(year, url){ //download HTML files for a given year
         current_date = addDays(current_date, 1)
         datestr = moment(current_date).format('YYYYMMDD');
         date_url = url + '?date=' + datestr;
-        output_path = output_dir + datestr + '.html';
+        output_path = input_dir + datestr + '.html';
     
         request(date_url, function(err, resp, html) {
             if (!err){
               console.log(output_path);
-              DumpHTML(output_path, html); 
+              dumpHTML(output_path, html); 
             } else {
                 console.log(err)
             }
@@ -56,7 +56,26 @@ function harvestLines(year, url){ //download HTML files for a given year
 }
 
 //harvestLines(year, url);
-          
 
-//const parsed_html = cheerio.load(html);
+datestr = '20170809';
+path_to_html = input_dir + datestr + '.html';
+html = fs.readFileSync(path_to_html);
+const $ = cheerio.load(html);
+console.log(path_to_html);
+console.log(typeof sbr_html);
+console.log($.html());
 
+
+/*<ul id="fruits">
+  <li class="apple">Apple</li>
+  <li class="orange">Orange</li>
+  <li class="pear">Pear</li>
+</ul>
+$('.apple', '#fruits').text()
+//=> Apple
+
+$('ul .pear').attr('class')
+//=> pear
+
+$('li[class=orange]').html()
+//=> <li class = "orange">Orange</li>*/
